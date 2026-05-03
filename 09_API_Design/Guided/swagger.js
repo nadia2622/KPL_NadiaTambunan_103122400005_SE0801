@@ -1,19 +1,23 @@
-import swaggerJsdoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
 const options = {
   definition: {
-    openapi: "3.0.0",
+    openapi: '3.0.0',
     info: {
-      title: "Menu Makanan",
-      version: "1.0.0",
-      description:
-        "Sebuah API sederhana tentang menu makanan yang kami sediakan",
+      title: 'Film Pribadi',
+      version: '1.0.0',
+      description: 'API sederhana untuk menyimpan film pribadi',
     },
   },
-  apis: ["app.js"],
+  apis: ['apps.js'],
 };
 
 const specs = swaggerJsdoc(options);
 
-export { specs, swaggerUi };
+module.exports = {
+    specs,
+    swaggerUi
+};
+
+

@@ -1,54 +1,53 @@
-import { specs, swaggerUi } from "./swagger.js";
+/**
+ * instruksi:
+ * 1. Install nodemon
+ * 2. Taruh di "scripts" package.json sebagai "nodemon app.js"
+ * 3. Tambah satu endpoint yaitu "/film" yang berisi daftar film
+ */
+
+const express = require('express');
+const { swaggerUi, specs } = require('./swagger');
 
 const app = express();
 
 app.use(express.json());
-
-//middleware untuk swagger
-app.use(express.json());
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 /**
- * @swagger
+ * @Swagger
  * /:
  *  get:
- *   summary: Get a greeting message
- *   responses:
- *     200:
- *       description: Internetmu online
+ *      summary: hello world!
+ *      responses:
+ *          200:
+ *            description: Internetmu online!
  */
 
 const PORT = 8000;
 const HOSTNAME = "localhost";
 
-const DataMovie = [];
-
-app.get("/movies", (req, res) => {
-  return res.status(200).json({
-    data: DataMovie,
-  });
+app.get('/', (req, res) => {
+    return res.status(200).send("Hello World!");
 });
 
-app.post("/movies", (req, res) => {
-  const newMovie = {
-    id: DataMovie.length + 1,
-    title: req.body.title,
-    genre: req.body.genre,
-    year: req.body.year,
-  };
+const dataFilm = [];
 
-  DataMovie.push(newMovie);
-
-  return res.status(201).json({
-    message: "Movie created successfully",
-    data: newMovie,
-  });
+app.get('/film', (req, res) => {
+    return res.status(200).json(dataFilm);
 });
 
-app.get("/", (req, res) => {
-  return res.status(200).send("Hello World!");
+app.post('/film', (req, res) => {
+    const filmBaru = {
+        id: dataFilm.length + 1,
+        title: req.body.title,
+        genre: req.body.genre,
+        year: req.body.year
+    };
+    
+    dataFilm.push(filmBaru);
+    return res.status(201).json(filmBaru);
 });
 
 app.listen(PORT, HOSTNAME, () => {
-  console.log(`Server is running on http://${HOSTNAME}:${PORT}`);
+    console.log(`Peladen berjalan di http://${HOSTNAME}:${PORT}`);
 });
